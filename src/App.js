@@ -1,19 +1,11 @@
 import './App.css';
 import React, { useState } from 'react';
-import { Amplify, API } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
 import '@aws-amplify/ui-react/styles.css';
 
 // NOTE : La configuration Amplify doit être dans votre fichier src/index.js
-// Si elle n'y est pas, décommentez et remplissez les lignes ci-dessous
-/*
-Amplify.configure({
-  aws_project_region: 'eu-west-3',
-  aws_appsync_graphqlEndpoint: 'VOTRE_ENDPOINT_API_ICI',
-  aws_appsync_region: 'eu-west-3',
-  aws_appsync_authenticationType: 'API_KEY',
-  aws_appsync_apiKey: 'VOTRE_CLÉ_API_ICI',
-});
-*/
+
+const client = generateClient(); // Le client API moderne
 
 const createCommandeMutation = `
   mutation CreateCommande($input: CreateCommandeInput!) {
@@ -26,7 +18,7 @@ const createCommandeMutation = `
 `;
 
 function App() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = = useState({
     prenom: '',
     nom: '',
     telephone: '',
@@ -58,16 +50,16 @@ function App() {
         quartier: formData.quartier,
         quantite: quantiteInt,
         montantTotal: quantiteInt * prixUnitaire,
-        statut: 'Payée', // ou 'En attente de paiement'
+        statut: 'Payée',
       };
 
-      await API.graphql({
+      // Utilisation du nouveau client API
+      await client.graphql({
         query: createCommandeMutation,
         variables: { input: commandeInput },
       });
 
       alert('Commande passée avec succès !');
-      // Vider le formulaire après succès
       setFormData({ prenom: '', nom: '', telephone: '', quartier: '', quantite: 1 });
     } catch (error) {
       console.error('Erreur lors de la création de la commande', error);
