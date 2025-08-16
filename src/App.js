@@ -5,7 +5,7 @@ import '@aws-amplify/ui-react/styles.css';
 
 // NOTE : La configuration Amplify doit être dans votre fichier src/index.js
 
-const client = generateClient(); // Le client API moderne
+const client = generateClient();
 
 const createCommandeMutation = `
   mutation CreateCommande($input: CreateCommandeInput!) {
@@ -18,7 +18,8 @@ const createCommandeMutation = `
 `;
 
 function App() {
-  const [formData, setFormData] = = useState({
+  // LA CORRECTION EST ICI : il n'y a plus qu'un seul "="
+  const [formData, setFormData] = useState({
     prenom: '',
     nom: '',
     telephone: '',
@@ -35,7 +36,7 @@ function App() {
     event.preventDefault();
     alert('Envoi de la commande...');
     try {
-      const prixUnitaire = 1500; // IMPORTANT : Mettez votre prix ici
+      const prixUnitaire = 1500;
       const quantiteInt = parseInt(formData.quantite);
 
       if (isNaN(quantiteInt) || quantiteInt <= 0) {
@@ -53,7 +54,6 @@ function App() {
         statut: 'Payée',
       };
 
-      // Utilisation du nouveau client API
       await client.graphql({
         query: createCommandeMutation,
         variables: { input: commandeInput },
