@@ -4,7 +4,7 @@ import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
 import '@aws-amplify/ui-react/styles.css';
 
-// LA CONFIGURATION EST ICI, AU DÉBUT DU FICHIER PRINCIPAL
+// Configuration avec les bonnes informations
 Amplify.configure({
   aws_project_region: 'eu-west-3',
   aws_appsync_graphqlEndpoint: 'https://4uzvq26kbjhlfsv3mfwe17lna.appsync-api.eu-west-3.amazonaws.com/graphql',
@@ -41,7 +41,7 @@ function App() {
     event.preventDefault();
     alert('Envoi de la commande...');
     try {
-      const prixUnitaire = 1500;
+      const prixUnitaire = 1500; 
       const quantiteInt = parseInt(formData.quantite);
 
       if (isNaN(quantiteInt) || quantiteInt <= 0) {
