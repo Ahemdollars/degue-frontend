@@ -1,10 +1,10 @@
 import './App.css';
 import React, { useState } from 'react';
 import { Amplify } from 'aws-amplify';
-import { generateClient } from 'aws-amplify/api'; // L'IMPORT CORRECT
+import { generateClient } from 'aws-amplify/api';
 import '@aws-amplify/ui-react/styles.css';
 
-// La configuration, qui est correcte
+// LA CONFIGURATION EST ICI, AU DÉBUT DU FICHIER PRINCIPAL
 Amplify.configure({
   aws_project_region: 'eu-west-3',
   aws_appsync_graphqlEndpoint: 'https://4uzvq26kbjhlfsv3mfwe17lna.appsync-api.eu-west-3.amazonaws.com/graphql',
@@ -13,15 +13,12 @@ Amplify.configure({
   aws_appsync_apiKey: 'da2-jtaxwjcbhnhgrso5huppyr54',
 });
 
-// Le nouveau client API, qui est la méthode moderne
 const client = generateClient();
 
 const createCommandeMutation = `
   mutation CreateCommande($input: CreateCommandeInput!) {
     createCommande(input: $input) {
       id
-      prenom
-      nom
     }
   }
 `;
@@ -62,7 +59,6 @@ function App() {
         statut: 'Payée',
       };
 
-      // LA CORRECTION EST ICI : On utilise le nouveau "client"
       await client.graphql({
         query: createCommandeMutation,
         variables: { input: commandeInput },
