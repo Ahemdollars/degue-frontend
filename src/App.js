@@ -1,11 +1,16 @@
 import './App.css';
 import React, { useState } from 'react';
-import { generateClient } from 'aws-amplify/api';
+import { Amplify, API } from 'aws-amplify'; // Nous utilisons "API" de l'ancienne manière
 import '@aws-amplify/ui-react/styles.css';
 
-// NOTE : La configuration Amplify doit être dans votre fichier src/index.js
-
-const client = generateClient();
+// LA CONFIGURATION EST ICI, AU DÉBUT DU FICHIER PRINCIPAL
+Amplify.configure({
+  aws_project_region: 'eu-west-3',
+  aws_appsync_graphqlEndpoint: 'https://4uzvq26kbjhlfsv3mfwe17lna.appsync-api.eu-west-3.amazonaws.com/graphql',
+  aws_appsync_region: 'eu-west-3',
+  aws_appsync_authenticationType: 'API_KEY',
+  aws_appsync_apiKey: 'da2-jtaxwjcbhnhgrso5huppyr54',
+});
 
 const createCommandeMutation = `
   mutation CreateCommande($input: CreateCommandeInput!) {
@@ -18,7 +23,6 @@ const createCommandeMutation = `
 `;
 
 function App() {
-  // LA CORRECTION EST ICI : il n'y a plus qu'un seul "="
   const [formData, setFormData] = useState({
     prenom: '',
     nom: '',
@@ -54,7 +58,7 @@ function App() {
         statut: 'Payée',
       };
 
-      await client.graphql({
+      await API.graphql({
         query: createCommandeMutation,
         variables: { input: commandeInput },
       });
